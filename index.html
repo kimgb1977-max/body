@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스마트운동처방 - 몸에 밸런스를 잡아라</title>
+    <style>
+        /* ===== 기본 설정 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ===== 히어로 섹션 ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 60px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        @keyframes moveBackground {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 18px 45px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+            transform: translateY(-3px);
+        }
+
+        /* ===== 공통 섹션 스타일 ===== */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== 문제 제시 섹션 ===== */
+        .problem-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .problem-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .problem-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .problem-card p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        /* ===== 솔루션 섹션 ===== */
+        .solution-section {
+            background: white;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .solution-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .solution-icon {
+            font-size: 70px;
+            margin-bottom: 20px;
+        }
+
+        .solution-card h3 {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+        }
+
+        .solution-card p {
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        /* ===== 서비스 섹션 ===== */
+        .services-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #ff6b6b;
+        }
+
+        .service-card p {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .detail-button {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ffa500 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .detail-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        /* 서비스 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            position: relative;
+            animation: slideDown 0.4s ease;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            right: 25px;
+            top: 25px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+
+        .modal-content .service-details {
+            margin-top: 25px;
+        }
+
+        .modal-content ul {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .modal-content ul li {
+            padding: 10px 0;
+            color: #555;
+            font-size: 1.05em;
+        }
+
+        .modal-content ul li::before {
+            content: '✓';
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .modal-info {
+            background: #f5f7fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-info p {
+            margin: 10px 0;
+            color: #555;
+        }
+
+        /* ===== 작동 방식 섹션 ===== */
+        .how-it-works {
+            background: white;
+        }
+
+        .steps-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .step p {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .arrow {
+            font-size: 40px;
+            color: #667eea;
+            position: absolute;
+            top: 30px;
+            right: -30px;
+        }
+
+        /* ===== 특장점 섹션 ===== */
+        .features-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            line-height: 1.7;
+        }
+
+        .feature-card:hover h3,
+        .feature-card:hover p {
+            color: white;
+        }
+
+        /* ===== 가격 섹션 ===== */
+        .pricing-section {
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 3px solid #e0e0e0;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .pricing-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .pricing-price {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: #4CAF50;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        /* ===== FAQ 섹션 ===== */
+        .faq-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+
+        .faq-item {
+            background: white;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .faq-question {
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        .faq-question:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-toggle {
+            font-size: 1.5em;
+            color: #667eea;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 25px;
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 25px 25px;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        /* ===== CTA 섹션 ===== */
+        .final-cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            text-align: center;
+            color: white;
+            padding: 100px 20px;
+        }
+
+        .final-cta h2 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+        }
+
+        .final-cta p {
+            font-size: 1.3em;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* ===== 푸터 ===== */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 60px 20px 30px;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .footer-slogan {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .footer-contact {
+            margin: 30px 0;
+            font-size: 1.1em;
+        }
+
+        .footer-contact a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        /* ===== 반응형 디자인 ===== */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2em;
+            }
+
+            .hero-emoji {
+                font-size: 50px;
+                gap: 10px;
+            }
+
+            .section-title {
+                font-size: 2em;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-button {
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            .steps-container {
+                flex-direction: column;
+            }
+
+            .arrow {
+                display: none;
+            }
+
+            .modal-content {
+                margin: 10% 20px;
+                padding: 30px 20px;
+            }
+
+            .solutions-grid,
+            .services-grid,
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero h1 {
+                font-size: 2.8em;
+            }
+
+            .solutions-grid,
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ===== 스크롤 애니메이션 ===== */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .scroll-animate.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- 히어로 섹션 -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-emoji">
+                <span>🤖</span>
+                <span>💪</span>
+                <span>⚡</span>
+                <span>🎯</span>
+                <span>✨</span>
+            </div>
+            <h1>스마트운동처방</h1>
+            <p class="hero-subtitle">몸에 밸런스를 잡아라! 로봇 장비로 당신의 신체 불균형을 정밀하게 분석하고 맞춤 운동을 처방합니다</p>
+            <div class="cta-buttons">
+                <a href="#services" class="cta-button cta-primary">서비스 소개 보기 🔍</a>
+                <a href="https://forms.gle/YOUR_FORM_LINK" target="_blank" class="cta-button cta-secondary">무료 상담 신청 📝</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 문제 제시 섹션 -->
+    <section class="problem-section scroll-animate">
+        <h2 class="section-title">왜 스마트운동처방이 필요한가요? 🤔</h2>
+        <p class="section-subtitle">현대인의 몸은 다양한 불균형과 통증으로 고통받고 있습니다</p>
+        <div class="problems-grid">
+            <div class="problem-card">
+                <div class="problem-icon">💼</div>
+                <h3>장시간 책상 근무</h3>
+                <p>하루 8시간 이상 앉아있는 직장인들의 거북목, 굽은 등, 골반 불균형이 심각한 수준입니다. 단순한 스트레칭으로는 근본적인 해결이 어렵습니다.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">📱</div>
+                <h3>스마트폰 사용 증가</h3>
+                <p>성인 평균 하루 4시간 이상 스마트폰을 사용하면서 목과 어깨 통증이 일상화되었습니다. 경추 디스크 환자가 20-30대에서도 급증하고 있습니다.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">🏃</div>
+                <h3>잘못된 운동 습관</h3>
+                <p>전문가의 도움 없이 시작한 운동이 오히려 몸의 불균형을 악화시킵니다. 자신의 신체 상태를 정확히 모른 채 무리한 운동을 하다 부상을 입습니다.</p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-icon">😰</div>
+                <h3>만성 통증과 피로</h3>
+                <p>허리, 목, 어깨, 무릎 등 만성 통증으로 일상생활의 질이 떨어집니다. 진통제로 일시적으로 버티지만 근본 원인은 해결되지 않습니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 솔루션 섹션 -->
+    <section class="solution-section scroll-animate">
+        <h2 class="section-title">스마트운동처방의 해결책 💡</h2>
+        <p class="section-subtitle">첨단 로봇 기술과 전문가의 노하우가 만난 과학적 운동 처방</p>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <div class="solution-icon">🤖</div>
+                <h3>AI 로봇 신체 분석</h3>
+                <p>최첨단 로봇 장비가 당신의 신체를 360도 스캔하여 근육 불균형, 자세 이상, 관절 가동 범위를 정밀하게 측정합니다. 수치화된 데이터로 현재 상태를 명확히 파악할 수 있습니다.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">📊</div>
+                <h3>개인 맞춤 운동 처방</h3>
+                <p>분석 데이터를 바탕으로 당신만을 위한 운동 프로그램을 설계합니다. 약한 근육은 강화하고, 긴장된 근육은 이완시키며, 불균형을 바로잡는 과학적 처방을 제공합니다.</p>
+            </div>
+            <div class="solution-card">
+                <div class="solution-icon">🎯</div>
+                <h3>실시간 자세 교정</h3>
+                <p>로봇 장비가 운동 중 자세를 실시간으로 모니터링하고 피드백합니다. 잘못된 자세는 즉시 교정되어 부상 위험은 줄이고 운동 효과는 극대화합니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 서비스 섹션 -->
+    <section id="services" class="services-section scroll-animate">
+        <h2 class="section-title">제공 서비스 🎁</h2>
+        <p class="section-subtitle">당신의 건강한 삶을 위한 체계적인 프로그램</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🔬</div>
+                <h3>정밀 신체 분석</h3>
+                <p>로봇 장비를 활용한 3D 신체 스캔 및 종합 평가</p>
+                <button class="detail-button" onclick="openModal('service1')">자세히 보기</button>
+            </div>
+            <div
